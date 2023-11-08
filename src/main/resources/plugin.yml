@@ -1,0 +1,3 @@
+name: EagleNoWaterIce
+version: '${project.version}'
+main: org.eagle.eaglenowaterice.EagleNoWaterIce

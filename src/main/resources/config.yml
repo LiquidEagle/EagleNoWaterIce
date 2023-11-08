@@ -1,0 +1,11 @@
+general:
+  noMelting: true
+  iceDrop: false
+  noFreeze: true
+  iceWater: false
+worlds:
+  designatedWorldName: "Warps"
+  designatedWorldName2: "prestigemines"
+  designatedWorldName3: "solitarist"
+  designatedWorldName4: "Hustler"
+  designatedWorldName5: "world"
