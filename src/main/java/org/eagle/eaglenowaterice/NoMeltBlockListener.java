@@ -10,6 +10,10 @@ import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class NoMeltBlockListener implements Listener {
     private boolean noMelting;
     private boolean iceDrop;
@@ -20,6 +24,7 @@ public class NoMeltBlockListener implements Listener {
     private String designatedWorldName3;
     private String designatedWorldName4;
     private String designatedWorldName5;
+    private ArrayList worlds;
     private static EagleNoWaterIce plugin;
 
     public NoMeltBlockListener(EagleNoWaterIce paramNoMelt) {
@@ -34,6 +39,7 @@ public class NoMeltBlockListener implements Listener {
         this.designatedWorldName3 = fileConfiguration.getString("worlds.designatedWorldName3");
         this.designatedWorldName4 = fileConfiguration.getString("worlds.designatedWorldName4");
         this.designatedWorldName5 = fileConfiguration.getString("worlds.designatedWorldName5");
+        this.worlds = new ArrayList<>(Arrays.asList(designatedWorldName,designatedWorldName2,designatedWorldName3,designatedWorldName4,designatedWorldName5));
     }
 
     @EventHandler
@@ -53,22 +59,22 @@ public class NoMeltBlockListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent paramBlockBreakEvent) {
         // Check if the event occurs in the designated world.
-        if (paramBlockBreakEvent.getBlock().getType() == Material.ICE && !paramBlockBreakEvent.getBlock().getWorld().getName().equalsIgnoreCase(this.designatedWorldName) && (!paramBlockBreakEvent.getBlock().getWorld().getName().equalsIgnoreCase(this.designatedWorldName2)) && (!paramBlockBreakEvent.getBlock().getWorld().getName().equalsIgnoreCase(this.designatedWorldName3)) && (!paramBlockBreakEvent.getBlock().getWorld().getName().equalsIgnoreCase(this.designatedWorldName4)) && (!paramBlockBreakEvent.getBlock().getWorld().getName().equalsIgnoreCase(this.designatedWorldName5))) {
-            System.out.println("User is in " + paramBlockBreakEvent.getBlock().getWorld().getName() + " and the enabled worlds are " + this.designatedWorldName + " & " + this.designatedWorldName2);
-//            paramBlockBreakEvent.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&',"&cYou broke an ice block in world " + paramBlockBreakEvent.getBlock().getWorld().getName() + " and the enabled worlds are " + this.designatedWorldName + " & " + this.designatedWorldName2 + "!"));
+        if (paramBlockBreakEvent.getBlock().getType() == Material.ICE &&
+                !paramBlockBreakEvent.getBlock().getWorld().getName().equalsIgnoreCase(this.designatedWorldName) &&
+                (!paramBlockBreakEvent.getBlock().getWorld().getName().equalsIgnoreCase(this.designatedWorldName2)) &&
+                (!paramBlockBreakEvent.getBlock().getWorld().getName().equalsIgnoreCase(this.designatedWorldName3)) &&
+                (!paramBlockBreakEvent.getBlock().getWorld().getName().equalsIgnoreCase(this.designatedWorldName4)) &&
+                (!paramBlockBreakEvent.getBlock().getWorld().getName().equalsIgnoreCase(this.designatedWorldName5))) {
             return; // If not, return and don't execute the plugin's functionality.
         }
-//        if (!paramBlockBreakEvent.isCancelled() && paramBlockBreakEvent.getBlock().getType() == Material.ICE && this.iceDrop) {
-//            ItemStack itemStack = new ItemStack(Material.ICE, 1);
-//            paramBlockBreakEvent.getPlayer().getWorld().dropItemNaturally(paramBlockBreakEvent.getBlock().getLocation(), itemStack);
-//        }
-        if (!paramBlockBreakEvent.isCancelled() && !this.iceWater && paramBlockBreakEvent.getBlock().getType() == Material.ICE) {
+        if (!paramBlockBreakEvent.isCancelled() && !this.iceWater &&
+                paramBlockBreakEvent.getBlock().getType() == Material.ICE) {
             paramBlockBreakEvent.getBlock().setType(Material.AIR);
-            System.out.println(paramBlockBreakEvent.getPlayer().getDisplayName() + " broke an ice block in world " + paramBlockBreakEvent.getBlock().getWorld().getName());
-//            paramBlockBreakEvent.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou broke an ice block in world " + paramBlockBreakEvent.getBlock().getWorld().getName()));
         }
     }
 }
+
+// ~ No clue what this is for
 //    private boolean canBreakBlock(Block block, Player player) {
 //        // Get the player associated with the world where the block is located
 //        LocalPlayer localPlayer = getWorldGuardPlugin().wrapPlayer(player);
